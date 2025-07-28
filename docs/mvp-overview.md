@@ -10,6 +10,50 @@ CHaS is a simple container hosting system with these components:
 4. **Ingress** - Load balancer and traffic router
 5. **Client** - CLI and programmatic interfaces
 
+### Infrastructure Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              CHaS Infrastructure                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐                                                            │
+│  │   Ingress   │ ◄──── Load Balancer & Service Discovery                    │
+│  │ Router/LB   │                                                            │
+│  └──────┬──────┘                                                            │
+│         │ Internal API                                                      │
+│         ▼                                                                   │
+│  ┌─────────────┐      ┌─────────────┐                                       │
+│  │ API Server  │◄────►│  Scheduler  │ ◄──── Control Plane                   │
+│  │   FastAPI   │      │ Node Select │                                       │
+│  └──────┬──────┘      └─────────────┘                                       │
+│         │ Container Management                                              │
+│         ▼                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                         Node Cluster                                │    │
+│  │                                                                     │    │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐  │    │
+│  │  │   Node 1    │  │   Node 2    │  │   Node 3    │  │   Node N   │  │    │
+│  │  │             │  │             │  │             │  │            │  │    │
+│  │  │ containerd  │  │ containerd  │  │ containerd  │  │ containerd │  │    │
+│  │  │ node-agent  │  │ node-agent  │  │ node-agent  │  │ node-agent │  │    │
+│  │  │             │  │             │  │             │  │            │  │    │
+│  │  │ [Container] │  │ [Container] │  │ [Container] │  │ [Container]│  │    │
+│  │  │ [Container] │  │ [Container] │  │             │  │            │  │    │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘  │    │
+│  │                                                                     │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Network Connections:
+• Client ←→ Ingress: HTTP/HTTPS requests
+• API Server ←→ Ingress: Configuration of routing  
+• API Server ←→ Scheduler: Resource allocation requests
+• API Server ←→ Nodes: Container deployment & management
+• Nodes ←→ Ingress: Service registration & health checks
+• Ingress ←→ Containers: Load balanced traffic routing
+```
+
 ## Deployment Flow
 
 1. Client sends request to API server via ingress
