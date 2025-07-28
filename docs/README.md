@@ -1,11 +1,12 @@
 # CHaS Container Hosting System
 
-Simple API-driven container hosting using containerd and nerdctl.
+Simple API-driven container hosting using containerd and CHaS node agents.
 
 ## Documentation
 
 - **[MVP Overview](mvp-overview.md)** - System architecture and core concepts
 - **[Node Setup](node-setup.md)** - Setting up container runtime nodes  
+- **[Node Agent Specification](node-agent-specification.md)** - Node agent architecture and API
 - **[API Specification](api-specification.md)** - REST API documentation
 - **[API Client](api-client.md)** - Client tools and libraries
 - **[Examples](examples.md)** - Usage examples and tutorials
@@ -23,14 +24,14 @@ Simple API-driven container hosting using containerd and nerdctl.
 
 ## Components
 
-- **Node**: containerd + nerdctl runtime
+- **Node**: containerd + CHaS node agent
 - **API Server**: FastAPI service for container management  
 - **Client**: CLI and libraries for API interaction
 
 ## Features
 
 - Simple container deployment via REST API
-- Docker-compatible interface (nerdctl)
+- API-driven container management via node agents
 - Automatic port allocation
 - Self-hosting capability
 

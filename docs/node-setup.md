@@ -1,5 +1,7 @@
 # Node Setup
 
+This guide covers setting up CHaS worker nodes with the node agent. For detailed information about the node agent architecture and API, see the [Node Agent Specification](node-agent-specification.md).
+
 ## Prerequisites
 
 - Linux system (Ubuntu 20.04+ or CentOS 8+)
@@ -20,7 +22,7 @@ sudo ./scripts/node-setup.sh
 
 This installs:
 - containerd (container runtime)
-- nerdctl (Docker-compatible CLI)
+- CHaS node agent (container management service)
 - Python dependencies for node agent
 
 ## Node Registration
@@ -40,13 +42,19 @@ Verify the installation:
 ```bash
 # Check services
 systemctl status containerd
+systemctl status chas-node-agent
 
-# Test container execution
-nerdctl run --rm alpine echo "Hello from CHaS node!"
+# Test node agent API
+curl http://localhost:9090/health
+
+# Check node registration
+curl $CHAS_API_URL/nodes
 ```
 
 ## Troubleshooting
 
 - **Permission errors**: Use sudo
-- **Service failures**: Check logs with `journalctl -u containerd`
-- **Container logs**: Use `nerdctl logs <container-name>`
+- **Service failures**: Check logs with `journalctl -u containerd` or `journalctl -u chas-node-agent`
+- **Node agent issues**: Check status with `systemctl status chas-node-agent`
+- **Container logs**: Use the node agent API: `curl http://localhost:9090/containers/{container_id}/logs`
+- **API connectivity**: Verify `CHAS_API_URL` is accessible and node is registered

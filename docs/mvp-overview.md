@@ -4,7 +4,7 @@
 
 CHaS is a simple container hosting system with these components:
 
-1. **Nodes** - Machines running containerd/nerdctl
+1. **Nodes** - Machines running containerd/node-agent
 2. **API Server** - FastAPI service for container management
 3. **Scheduler** - Selects optimal nodes for deployment
 4. **Ingress** - Load balancer and traffic router
@@ -23,7 +23,7 @@ CHaS is a simple container hosting system with these components:
 - Multi-node container deployment
 - Automatic resource-based scheduling
 - Load balancing and service discovery
-- Docker-compatible interface (nerdctl)
+- API-driven container management via node agents
 - Self-hosting capability
 - Interactive API documentation
 
