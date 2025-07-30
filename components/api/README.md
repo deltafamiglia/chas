@@ -1,10 +1,10 @@
 # API Endpoints Schema
 """
-POST /api/v1/agents/register
+POST /api/v1/agents/
 Request: RegisterRequest
 Response: RegisterResponse
 
-POST /api/v1/agents/sync
+POST /api/v1/agents/{agent_id}/sync
 Request: SyncRequest  
 Response: SyncResponse
 
