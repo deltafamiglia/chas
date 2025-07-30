@@ -1,0 +1,9 @@
+[project]
+name = "agent"
+version = "0.1.0"
+description = "CHaS agent"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.7",
+]
