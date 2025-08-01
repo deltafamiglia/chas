@@ -6,8 +6,8 @@ from containerd.services.images.v1 import images_pb2, images_pb2_grpc
 from containerd.services.snapshots.v1 import snapshots_pb2, snapshots_pb2_grpc
 import asyncio
 
-from components.agent.src.container.container import Container
-from components.agent.src.container.container_operations import ContainerOperations
+from src.container.container import Container
+from src.container.container_operations import ContainerOperations
 
 
 class ContainerdClient(ContainerOperations):
