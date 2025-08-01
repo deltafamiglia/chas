@@ -4,9 +4,19 @@ from containerd.services.containers.v1 import containers_pb2, containers_pb2_grp
 from containerd.services.tasks.v1 import tasks_pb2, tasks_pb2_grpc
 from containerd.types.task import task_pb2
 
+from typing import Dict, Any
+
+from components.agent.src.container.container_operations import ContainerOperations
+
+
 class Container:
     def __init__(self, socket: str):
         self.containerd_address = socket
+    """High-level container object"""
+
+    def __init__(self, id: str, client: ContainerOperations):
+        self.id = id
+        self._client = client
 
 def get_containers(self) -> list:
     with grpc.insecure_channel(self.containerd_address) as channel:
@@ -15,6 +25,9 @@ def get_containers(self) -> list:
         for container in containers:
             print('container ID:', container.id)
         return containers
+    async def start(self) -> None:
+        """Start the container"""
+        await self._client.start_container(self.id)
 
 def get_container_cpu_allocation(self, container_id: str) -> float:
     # Connect to containerd using the well-known containerd.sock and location.
@@ -26,6 +39,9 @@ def get_container_cpu_allocation(self, container_id: str) -> float:
         namespacev1 = namespace_pb2_grpc.NamespacesStub(channel)
         containersv1 = containers_pb2_grpc.ContainersStub(channel)
         tasksv1 = tasks_pb2_grpc.TasksStub(channel)
+    async def stop(self, timeout: int = 10) -> None:
+        """Stop the container"""
+        await self._client.stop_container(self.id, timeout)
 
         # First, discover all available containerd namespaces.
         try:
@@ -40,6 +56,13 @@ def get_container_cpu_allocation(self, container_id: str) -> float:
             print('  ⤏ namespace labels ({}):'.format(len(namespace.labels)))
             for label in namespace.labels:
                 print('      "{n}": "{v}"'.format(n=label, v=namespace.labels[label]))
+    async def delete(self, force: bool = False) -> None:
+        """Delete the container"""
+        await self._client.delete_container(self.id, force)
+
+    async def status(self) -> Dict[str, Any]:
+        """Get container status"""
+        return await self._client.get_container_status(self.id)
 
             # The containerd API is slightly "peculiar" in that the list of containers
             # lacks such useful information such as PID and container status. Instead,
