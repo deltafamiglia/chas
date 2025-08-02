@@ -59,8 +59,8 @@ class ContainerStatus(BaseModel):
 
 
 class AgentResources(BaseModel):
-    cpu_used: float  # Number of CPU cores in use
-    memory_used_gb: float
+    cpu_available: float  # Number of CPU cores are free
+    memory_free_gb: float
     running_containers: int
     load_average: Optional[float] = None
 

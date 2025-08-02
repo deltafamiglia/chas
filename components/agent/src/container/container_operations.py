@@ -1,0 +1,13 @@
+from abc import ABC, abstractmethod
+from typing import Protocol, Optional, Dict, Any, List
+
+class ContainerOperations(Protocol):
+    """Protocol defining container operations"""
+    async def start_container(self, id: str) -> None:
+        ...
+    async def stop_container(self, id: str, timeout: int) -> None:
+        ...
+    async def delete_container(self, id: str, force: bool) -> None:
+        ...
+    async def get_container_status(self, id: str) -> Dict[str, Any]:
+        ...
