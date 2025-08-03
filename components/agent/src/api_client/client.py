@@ -1,6 +1,9 @@
 import json
 import requests
-from src.models import RegisterRequest, RegisterResponse
+
+from models import SyncResponse
+from src.models import RegisterRequest, RegisterResponse, SyncRequest
+
 
 class Client:
 
@@ -59,6 +62,6 @@ class Client:
     def unregister_agent(self):
         pass
 
-    def sync_agent(self):
+    def sync_agent(self, request: SyncRequest) -> SyncResponse:
         pass
 
