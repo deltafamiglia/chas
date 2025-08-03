@@ -8,6 +8,7 @@ def get_free_cpu_cores() -> int:
     cores = get_cpu_cores()
     # get allocated cpu cores from containerd
 
+
     return cores - psutil.cpu_percent(interval=1) / 100 * cores
 
 
