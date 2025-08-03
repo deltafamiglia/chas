@@ -1,8 +1,7 @@
 import json
 import requests
 
-from models import SyncResponse
-from src.models import RegisterRequest, RegisterResponse, SyncRequest
+from src.models import RegisterRequest, RegisterResponse, SyncRequest, SyncResponse
 
 
 class Client:
